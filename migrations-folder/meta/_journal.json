@@ -1,0 +1,34 @@
+{
+  "version": "5",
+  "dialect": "sqlite",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "5",
+      "when": 1697079389651,
+      "tag": "0000_orange_baron_strucker",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "5",
+      "when": 1697079521943,
+      "tag": "0001_serious_clint_barton",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1697080043973,
+      "tag": "0002_right_wendell_rand",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "5",
+      "when": 1697118593693,
+      "tag": "0003_woozy_moon_knight",
+      "breakpoints": true
+    }
+  ]
+}

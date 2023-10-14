@@ -1,17 +1,12 @@
 import { ModeToggle } from "@/components/theme-toggle-button";
 import { Button } from "@/components/ui/button";
 import { SignOutButton, auth } from "@clerk/nextjs";
-import Head from "next/head";
 import Link from "next/link";
 
 export default function Home() {
   const { userId }: { userId: string | null } = auth();
   return (
     <div className="min-h-screen flex flex-col justify-center items-center">
-      <Head>
-        <title>Next.js Landing Page</title>
-      </Head>
-
       <header className="absolute top-0 left-0 right-0 py-4 flex justify-between px-10">
         <div className="flex space-x-6">
           <a href="#" className="text-xl font-bold">
