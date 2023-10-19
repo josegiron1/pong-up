@@ -1,6 +1,5 @@
 import GetStarted from "@/components/GetStarted";
 import Navbar from "@/components/Navbar";
-import { ModeToggle } from "@/components/theme-toggle-button";
 
 export default function Home() {
   return (
