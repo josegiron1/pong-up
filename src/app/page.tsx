@@ -3,8 +3,6 @@ import Navbar from "@/components/Navbar";
 
 export default function Home() {
   return (
-    <>
-      <Navbar />
       <div className="min-h-screen flex flex-col justify-center items-center">
         <main className="text-center space-y-6">
           <h1 className="text-6xl font-bold">
@@ -23,6 +21,5 @@ export default function Home() {
           <p className="text-sm">Pong-Up 2023</p>
         </footer>
       </div>
-    </>
   );
 }
