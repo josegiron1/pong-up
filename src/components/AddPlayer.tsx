@@ -1,5 +1,6 @@
-"use client"
+"use client";
 
+import React, { useEffect, useState } from "react";
 import { PlusCircledIcon } from "@radix-ui/react-icons";
 import { Button } from "@/components/ui/button";
 import {
@@ -15,49 +16,23 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
 import SubmitButton from "./SubmitButton";
-import { useState } from "react";
-import { useRouter } from "next/navigation";
 
-export default function AddCompany({ userId }: { userId: number}) {
-  const [open, setOpen] = useState(false)
-  const [name, setName] = useState("")
-  const router = useRouter()
-
-  async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault()
-    try {
-      const res = await fetch ('/companies/create',{
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ name, userId }),
-      }
-      )
-      const data = await res.json()
-      setOpen(false)
-      router.push(`/companies/${data.id}`)
-
-    }
-    catch (error) {
-      console.log(error)
-    }
-
-  }
+export default function AddPlayer({ userId }: { userId: number}) {
+  const [name, setName] = useState("");
 
   return (
-    <Dialog open={open}>
+    <Dialog>
       <DialogTrigger asChild>
-        <Button onClick={() => setOpen(true)}>
+        <Button>
           <PlusCircledIcon className="mr-2 h-4 w-4" /> Add Company
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
-        <form onSubmit={onSubmit}>
+        <form>
         <DialogHeader>
-          <DialogTitle>Add Company</DialogTitle>
+          <DialogTitle>Add Player</DialogTitle>
           <DialogDescription>
-            Add a company to start the ping-pong ranking race.
+            Add a player to start playing.
           </DialogDescription>
         </DialogHeader>
         <div className="grid gap-4 py-4">
@@ -69,16 +44,17 @@ export default function AddCompany({ userId }: { userId: number}) {
             <Input
               id="name"
               autoComplete="false"
-              name="name"
-              placeholder="i.e. Gdev"
+              name="fullName"
+              value={name}
+              placeholder="i.e. John Doe"
               type="text"
-              className="col-span-3"
               onChange={(e) => setName(e.target.value)}
+              className="col-span-3"
             />
           </div>
         </div>
         <DialogFooter className="items-center">
-          <SubmitButton buttonLabel="Add Company" /> 
+          {/* <SubmitButton buttonLabel="Add Company" />  */}
         </DialogFooter>
         </form>
       </DialogContent>

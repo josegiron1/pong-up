@@ -11,11 +11,9 @@ import {
 } from "@/components/ui/card";
 import Link from "next/link";
 import AddCompany from "@/components/AddCompany";
-import Navbar from "@/components/Navbar";
 import { company } from "@/lib/database/schema/companies";
 import { usersToCompanies } from "@/lib/database/schema/usersToCompanies";
 import { User } from "@clerk/nextjs/server";
-import { SQLiteSyncDialect } from "drizzle-orm/sqlite-core";
 
 async function createUserIfNotExists(user: User | null) {
   const [userInDb] = await db
