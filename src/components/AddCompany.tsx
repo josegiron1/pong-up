@@ -18,12 +18,14 @@ import SubmitButton from "./SubmitButton";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 
-export default function AddCompany({ userId }: { userId: number}) {
+export default function AddCompany({ userId, revalidate }: { userId: number, revalidate: any}) {
   const [open, setOpen] = useState(false)
   const [name, setName] = useState("")
+  const [loading, setLoading] = useState(false)
   const router = useRouter()
 
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
+    setLoading(true)
     e.preventDefault()
     try {
       const res = await fetch ('/companies/create',{
@@ -36,17 +38,19 @@ export default function AddCompany({ userId }: { userId: number}) {
       )
       const data = await res.json()
       setOpen(false)
+      revalidate()
       router.push(`/companies/${data.id}`)
-
     }
     catch (error) {
       console.log(error)
+    } finally {
+      setLoading(false)
     }
 
   }
 
   return (
-    <Dialog open={open}>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button onClick={() => setOpen(true)}>
           <PlusCircledIcon className="mr-2 h-4 w-4" /> Add Company
@@ -78,7 +82,7 @@ export default function AddCompany({ userId }: { userId: number}) {
           </div>
         </div>
         <DialogFooter className="items-center">
-          <SubmitButton buttonLabel="Add Company" /> 
+          <SubmitButton disabled={loading} buttonLabel="Add Company" /> 
         </DialogFooter>
         </form>
       </DialogContent>
