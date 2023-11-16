@@ -1,3 +1,4 @@
+import AddPlayer from "@/components/AddPlayer"
 import { Card } from "@/components/ui/card"
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { db } from "@/lib/database"
@@ -17,8 +18,11 @@ async function getUsersFromCompany(id: string) {
 export default async function Page({ params }: { params: { id: string}}) {
     const users = await getUsersFromCompany(params.id)
     
+    
   return (
-    <div className="min-h-screen flex flex-col items-center">
+    <div className="min-h-screen flex flex-col items-center gap-3">
+      <p className="text-2xl font-bold text-center">Players</p>
+      <AddPlayer companyId={params.id}  />
       <main className="grid grid-cols-2 text-center w-1/2">
         <Card className="p-3 col-span-2">
           <Table className="table-auto ">
@@ -33,9 +37,9 @@ export default async function Page({ params }: { params: { id: string}}) {
             <TableBody>
               {users.map((user, idx) => (
                 <TableRow key={user.id}>
-                <TableCell >Rank {idx + 1}</TableCell>
-                  <TableCell>{user.name}</TableCell>
-                  <TableCell>{user.elo}</TableCell>
+                <TableCell className="text-center" >Rank {idx + 1}</TableCell>
+                  <TableCell className="text-center">{user.name}</TableCell>
+                  <TableCell className="text-center">{user.elo}</TableCell>
                 </TableRow>
               ))}
             </TableBody>

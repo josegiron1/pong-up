@@ -14,7 +14,7 @@ import AddCompany from "@/components/AddCompany";
 import { company } from "@/lib/database/schema/companies";
 import { usersToCompanies } from "@/lib/database/schema/usersToCompanies";
 import { User } from "@clerk/nextjs/server";
-import { revalidatePath } from "next/cache";
+import { addCompany } from "../actions";
 
 async function createUserIfNotExists(user: User | null) {
   const [userInDb] = await db
@@ -78,16 +78,17 @@ export default async function Page() {
   const userInDb = await createUserIfNotExists(user);
   const companies = await getCompanies(user);
 
-  async function revalidatePathTest() {
+
+  const createCompanies = async (formData: FormData) => {
     "use server"
-    revalidatePath("/companies");
+    await addCompany(formData)
   }
 
   return (
       <div className="min-h-screen flex flex-col items-center p-2 gap-3">
         <div className="flex flex-col gap-3">
           <p className="text-2xl font-bold grow text-center">Companies</p>
-          <AddCompany revalidate={revalidatePathTest} userId={userInDb.id} />
+          <AddCompany createCompany={createCompanies} userId={userInDb.id} />
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
           {companies.map((item) => (

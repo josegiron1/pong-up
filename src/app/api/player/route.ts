@@ -1,27 +1,28 @@
 import { db } from "@/lib/database";
 import { company } from "@/lib/database/schema/companies";
+import { users } from "@/lib/database/schema/users";
 import { usersToCompanies } from "@/lib/database/schema/usersToCompanies";
 
 export async function POST(request: Request, response: Response) {
     const req = await request.json();
-    const { name, userId } = req;
-    if (!name) {
+    const { fullName, companyId } = req;
+    if (!fullName) {
       throw new Error("Name is required");
     }
   
-    if (!userId) {
+    if (!companyId) {
       throw new Error("User is required");
     }
 
-    const [companyCreated] = await db.insert(company).values({
-      name,
+    const [userCreated] = await db.insert(users).values({
+        fullName,
     }).returning()
   
     await db.insert(usersToCompanies).values({
-      userId: Number(userId),
-      companyId: companyCreated.id,
+      userId: userCreated.id,
+      companyId: companyId
     });
 
    
-    return Response.json({ ...companyCreated })
+    return Response.json({ ...userCreated })
   }

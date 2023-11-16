@@ -17,18 +17,36 @@ import { Label } from "@/components/ui/label";
 
 import SubmitButton from "./SubmitButton";
 
-export default function AddPlayer({ userId }: { userId: number}) {
-  const [name, setName] = useState("");
+
+export default function AddPlayer({ companyId }: { companyId: string}) {
+  const [fullName, setFullName] = useState("");
+
+  async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    try {
+      const res = await fetch("/api/player", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ fullName, companyId }),
+      });
+      const data = await res.json();
+      console.log(data);
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   return (
     <Dialog>
       <DialogTrigger asChild>
         <Button>
-          <PlusCircledIcon className="mr-2 h-4 w-4" /> Add Company
+          <PlusCircledIcon className="mr-2 h-4 w-4" /> Add Player
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
-        <form>
+        <form onSubmit={onSubmit}>
         <DialogHeader>
           <DialogTitle>Add Player</DialogTitle>
           <DialogDescription>
@@ -40,21 +58,20 @@ export default function AddPlayer({ userId }: { userId: number}) {
             <Label htmlFor="name" className="text-right">
               Name
             </Label>
-            <input type="hidden" name="userId" value={userId} />
+            <input type="hidden" name="companyId" value={companyId} />
             <Input
               id="name"
               autoComplete="false"
               name="fullName"
-              value={name}
               placeholder="i.e. John Doe"
               type="text"
-              onChange={(e) => setName(e.target.value)}
+              onChange={(e) => setFullName(e.target.value)}
               className="col-span-3"
             />
           </div>
         </div>
         <DialogFooter className="items-center">
-          {/* <SubmitButton buttonLabel="Add Company" />  */}
+          <SubmitButton buttonLabel="Add Player" /> 
         </DialogFooter>
         </form>
       </DialogContent>

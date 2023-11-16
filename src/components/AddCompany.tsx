@@ -16,43 +16,19 @@ import { Label } from "@/components/ui/label";
 
 import SubmitButton from "./SubmitButton";
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 
-export default function AddCompany({ userId, revalidate }: { userId: number, revalidate: any}) {
-  const [open, setOpen] = useState(false)
-  const [name, setName] = useState("")
-  const [loading, setLoading] = useState(false)
-  const router = useRouter()
+export default function AddCompany({ userId, createCompany }: { userId: number, createCompany: any}) {
 
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
-    setLoading(true)
     e.preventDefault()
-    try {
-      const res = await fetch ('/companies/create',{
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ name, userId }),
-      }
-      )
-      const data = await res.json()
-      setOpen(false)
-      revalidate()
-      router.push(`/companies/${data.id}`)
-    }
-    catch (error) {
-      console.log(error)
-    } finally {
-      setLoading(false)
-    }
-
+    // @ts-ignore
+    await createCompany(new FormData(e.target))
   }
 
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
+    <Dialog>
       <DialogTrigger asChild>
-        <Button onClick={() => setOpen(true)}>
+        <Button>
           <PlusCircledIcon className="mr-2 h-4 w-4" /> Add Company
         </Button>
       </DialogTrigger>
@@ -77,12 +53,11 @@ export default function AddCompany({ userId, revalidate }: { userId: number, rev
               placeholder="i.e. Gdev"
               type="text"
               className="col-span-3"
-              onChange={(e) => setName(e.target.value)}
             />
           </div>
         </div>
         <DialogFooter className="items-center">
-          <SubmitButton disabled={loading} buttonLabel="Add Company" /> 
+          <SubmitButton buttonLabel="Add Company" /> 
         </DialogFooter>
         </form>
       </DialogContent>
